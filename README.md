@@ -69,8 +69,8 @@ kubectl port-forward service/nginx-service 9090:80 --address 0.0.0.0
 > **Access URL:** http://51.21.201.13:9090
 > 
 ## 🔗 Documentation
- * **Project Link:** [[Insert Link Here]](https://drive.google.com/file/d/1tukJ4bRo3gtEvEMwBSpgr4ydOp9VT9eM/view?usp=sharing)
+ * **Project Link:** 
 ```
-
+(https://drive.google.com/file/d/1tukJ4bRo3gtEvEMwBSpgr4ydOp9VT9eM/view?usp=sharing)
 ```
  
