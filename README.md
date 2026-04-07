@@ -1,82 +1,104 @@
-Kubernetes Deployment Documentation
+To paste this into GitHub so it renders correctly, copy the code block below. I’ve cleaned up the structure to ensure the tables and code snippets look professional in a README.md file.
+```markdown
+# Kubernetes Deployment Documentation
 
-Project Name: Nginx Deployment with ConfigMap & Secret
-Environment: AWS EC2 (Ubuntu)
-Author: Sebastian Tomichan Naluthengumgal
+## 📝 Project Details
+* **Project Name:** Nginx Deployment with ConfigMap & Secret
+* **Environment:** AWS EC2 (Ubuntu)
+* **Author:** Sebastian Tomichan Naluthengumgal
 
-1. Objective
+---
+
+## 🎯 Objective
 The objective of this task was to:
-•	Deploy an Nginx application in Kubernetes
-•	Use a ConfigMap to store configuration data
-•	Use a Secret to store sensitive information
-•	Expose the application using a Kubernetes Service
-•	Access the application via browser using port forwarding
+* Deploy an **Nginx** application in Kubernetes.
+* Use a **ConfigMap** to store configuration data.
+* Use a **Secret** to store sensitive information.
+* Expose the application using a **Kubernetes Service**.
+* Access the application via browser using **Port Forwarding**.
 
-3. Environment Setup
-•	OS: Ubuntu (EC2 instance)
-•	Kubernetes installed and configured
-•	kubectl CLI configured
-•	Working directory: ~/sebastian-k8s
+---
 
-3.Core Concepts
-Question	One-Line Answer
-What is Kubernetes?	Kubernetes is a container orchestration platform that automates deployment, scaling, and management of containerized applications.
-What are containers?	Containers are lightweight, portable packages that include an application and all its dependencies to run consistently anywhere.
-What is kube-system?	kube-system is a special Kubernetes namespace that contains core system components required for the cluster to function.
+## ⚙️ Environment Setup
+* **OS:** Ubuntu (EC2 instance)
+* **Kubernetes:** Installed and configured
+* **CLI:** `kubectl` configured
+* **Working Directory:** `~/sebastian-k8s`
 
-4.Kubernetes Core Components
-Component	One-Line Explanation
-etcd	A distributed key-value database that stores all Kubernetes cluster state and configuration data.
-API Server	The central component that receives and processes all Kubernetes requests and updates etcd.
-Scheduler	Decides which worker node a new pod should run on based on resources and policies.
-Controllers	Background processes that ensure the actual cluster state matches the desired state.
+---
 
-5.Kubernetes Commands
-Command	One-Line Explanation
-kubectl get pods	Lists all pods in the default namespace.
-kubectl get pods -n kube-system	Lists all pods in the kube-system namespace (system components).
-kubectl describe pod etcd-minikube -n kube-system	Shows detailed information about the etcd-minikube pod in kube-system.
-kubectl run mahendra-nginx --image=nginx	Creates and runs a pod named mahendra-nginx using the Nginx image.
-kubectl exec -it mahendra-nginx -- /bin/bash	Opens an interactive Bash shell inside the mahendra-nginx pod.
-kubectl delete pod Mahendra-nginx	Deletes the specified pod.
-kubectl create deployment mahendra-nginx --image=nginx	Creates a deployment running Nginx containers.
-kubectl delete pod mahendra-nginx-6889bb9b-tbjkj	Deletes a specific pod (it will be recreated if managed by a deployment).
-kubectl delete deployment Mahendra-nginx	Deletes the deployment and all pods it manages.
-kubectl scale deployment mahendra-nginx --replicas=5	Scales the deployment to run 5 pod replicas.
+## 💡 Core Concepts
 
-6.Teste 
-Both ngnix and apache server deployment
+| Question | One-Line Answer |
+| :--- | :--- |
+| **What is Kubernetes?** | A container orchestration platform that automates deployment, scaling, and management of containerized applications. |
+| **What are containers?** | Lightweight, portable packages that include an application and all its dependencies to run consistently anywhere. |
+| **What is kube-system?** | A special Kubernetes namespace that contains core system components required for the cluster to function. |
+
+### Kubernetes Control Plane
+| Component | One-Line Explanation |
+| :--- | :--- |
+| **etcd** | A distributed key-value database that stores all Kubernetes cluster state and configuration data. |
+| **API Server** | The central component that receives and processes all Kubernetes requests and updates etcd. |
+| **Scheduler** | Decides which worker node a new pod should run on based on resources and policies. |
+| **Controllers** | Background processes that ensure the actual cluster state matches the desired state. |
+
+---
+
+## 🛠 Kubernetes Commands Reference
+
+| Command | Explanation |
+| :--- | :--- |
+| `kubectl get pods` | Lists all pods in the default namespace. |
+| `kubectl get pods -n kube-system` | Lists all pods in the kube-system namespace. |
+| `kubectl describe pod [name] -n [ns]` | Shows detailed information about a specific pod. |
+| `kubectl run [name] --image=nginx` | Creates and runs a standalone Nginx pod. |
+| `kubectl exec -it [name] -- /bin/bash` | Opens an interactive Bash shell inside a pod. |
+| `kubectl create deployment [name] --image=nginx` | Creates a deployment managing Nginx containers. |
+| `kubectl scale deployment [name] --replicas=5` | Scales the deployment to run 5 pod replicas. |
+| `kubectl delete deployment [name]` | Deletes the deployment and all managed pods. |
+
+---
+
+## 🚀 Deployment Process
+
+### 1. Resources Created
+Four YAML configuration files were developed:
+* `configmap.yaml` (Non-sensitive config)
+* `secret.yaml` (Sensitive information)
+* `deployment.yaml` (Pod & Container specs)
+* `service.yaml` (Network exposure)
+
+### 2. Execution
+Apply the configurations in the following order:
+
+```bash
+kubectl apply -f configmap.yaml
+kubectl apply -f secret.yaml
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+
+```
+### 3. Verification
+Verify that the pods are running and the service is active:
+```bash
+kubectl get pods
+kubectl get svc
+
+```
+## 🌐 Accessing the Application
+To expose the application to the internet/local browser from the EC2 instance, use **Port Forwarding**:
+```bash
+kubectl port-forward service/nginx-service 9090:80 --address 0.0.0.0
+
+```
+**Connection Test:**
+Open your browser and navigate to:
+http://51.21.201.13:9090
+## 🔗 Resources
+ * **Documentation Link:** [[Insert Link Here](https://drive.google.com/file/d/1tukJ4bRo3gtEvEMwBSpgr4ydOp9VT9eM/view?usp=sharing
+)]
+```
+
+```
  
-7. Kubernetes Resources Created
-Four YAML configuration files were created:
-•	configmap.yaml
-•	secret.yaml
-•	deployment.yaml
-•	service.yaml
-
-9. ConfigMap Configuration
-•	File: configmap.yaml, secret.yaml, deployment.yaml, and service.yaml
-•	Purpose: Store non-sensitive configuration data.
- 
-And I created by using this commands:
-
-•	kubectl apply -f configmap.yaml
-•	kubectl apply -f secret.yaml
-•	kubectl apply -f deployment.yaml
-•	kubectl apply -f service.yaml
-
-Then i verify everthing
-•	kubectl get pods
-•	kubectl get svc
-
-Forward
-•	kubectl port-forward service/nginx-service 9090:80 --address 0.0.0.0
- 
-
-In wed I used to check connection “51.21.201.13:9090”
- 
-environment variables inside the running pod
- 
-
-
-My documentation link : https://drive.google.com/file/d/1tukJ4bRo3gtEvEMwBSpgr4ydOp9VT9eM/view?usp=sharing
